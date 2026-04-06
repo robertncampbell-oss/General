@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spelling Bee Showdown</title>
+    <meta
+      name="description"
+      content="A playful family spelling game with school-year decks, quirky themes, custom word lists, and offline-friendly play."
+    />
+    <meta name="theme-color" content="#274060" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Bee Showdown" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./assets/icon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Family game night meets spelling practice</p>
+          <h1>Spelling Bee Showdown</h1>
+          <p class="hero-text">
+            A web-based spelling game with year-level lists, quirky topic packs,
+            custom imports, and a few dramatic risk-reward twists.
+          </p>
+        </div>
+        <div class="hero-panel">
+          <div class="score-chip">
+            <span>Total score</span>
+            <strong id="scoreTotal">0</strong>
+          </div>
+          <div class="score-chip">
+            <span>Round</span>
+            <strong id="roundLabel">Not started</strong>
+          </div>
+          <div class="score-chip">
+            <span>Deck size</span>
+            <strong id="deckCount">0 words</strong>
+          </div>
+        </div>
+      </header>
+
+      <section class="panel install-panel" aria-live="polite">
+        <div>
+          <p class="eyebrow">Holiday mode</p>
+          <h2>Install for offline play</h2>
+          <p id="installMessage">
+            Open this in Safari on iPhone or iPad, then use Share and choose Add to Home Screen.
+          </p>
+        </div>
+        <div class="install-actions">
+          <button id="installApp" class="primary" type="button" hidden>Install app</button>
+          <span id="connectionStatus" class="status-pill">Checking offline support…</span>
+        </div>
+      </section>
+
+      <main class="layout">
+        <section class="panel control-panel">
+          <div class="panel-heading">
+            <h2>Build your round</h2>
+            <p>Mix school-year words, themed packs, advanced lists, and your own imports.</p>
+          </div>
+
+          <div class="control-grid">
+            <label>
+              <span>Year level</span>
+              <select id="yearSelect"></select>
+            </label>
+
+            <label>
+              <span>Topic pack</span>
+              <select id="topicSelect"></select>
+            </label>
+
+            <label>
+              <span>Round type</span>
+              <select id="roundType">
+                <option value="classic">Classic spell-off</option>
+                <option value="lightning">Lightning round</option>
+                <option value="quirky">Quirky chaos mix</option>
+              </select>
+            </label>
+
+            <label class="toggle">
+              <input id="advancedToggle" type="checkbox" />
+              <span>Include advanced words</span>
+            </label>
+          </div>
+
+          <div class="mode-strip" aria-label="Challenge modes">
+            <button class="mode-card active" data-mode="classic" type="button">
+              <strong>Standard</strong>
+              <span>Regular scoring, steady climb.</span>
+            </button>
+            <button class="mode-card" data-mode="bravery" type="button">
+              <strong>Bucket of Bravery</strong>
+              <span>Harder picks, double points, higher drama.</span>
+            </button>
+            <button class="mode-card" data-mode="coward" type="button">
+              <strong>Coward's Cup</strong>
+              <span>One free skip when the nerves kick in.</span>
+            </button>
+            <button class="mode-card" data-mode="purse" type="button">
+              <strong>Person's Purse</strong>
+              <span>Bank points now or keep risking them.</span>
+            </button>
+          </div>
+
+          <div class="action-row">
+            <button id="startGame" class="primary" type="button">Start new round</button>
+            <button id="shuffleDeck" type="button">Shuffle current deck</button>
+          </div>
+
+          <div class="deck-preview">
+            <div>
+              <h3>Selected sources</h3>
+              <p id="selectionSummary">Pick a year or topic to begin.</p>
+            </div>
+            <div>
+              <h3>Words ready</h3>
+              <p id="deckPreview">No words loaded yet.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel game-panel">
+          <div class="panel-heading">
+            <h2>Play the round</h2>
+            <p>Hear the word, use the clue, then decide whether to risk it or bank it.</p>
+          </div>
+
+          <div class="word-stage">
+            <div class="word-meta">
+              <span id="sourceBadge">Choose a deck</span>
+              <span id="difficultyBadge">Difficulty pending</span>
+            </div>
+            <h3 id="promptWord">Press start to load your first word</h3>
+            <p id="promptClue">Clues and sentence prompts appear here.</p>
+          </div>
+
+          <div class="play-controls">
+            <button id="speakWord" type="button">Say the word</button>
+            <button id="showAnswer" type="button">Reveal answer</button>
+            <button id="nextWord" type="button">Next word</button>
+          </div>
+
+          <div class="judgement-row">
+            <button id="markCorrect" class="success" type="button">Correct</button>
+            <button id="markIncorrect" class="danger" type="button">Incorrect</button>
+            <button id="useCowardCup" type="button">Use Coward's Cup</button>
+            <button id="bankPoints" type="button">Bank purse points</button>
+          </div>
+
+          <div class="status-grid">
+            <article>
+              <h3>Round status</h3>
+              <p id="roundStatus">No round in progress.</p>
+            </article>
+            <article>
+              <h3>Current streak</h3>
+              <p id="streakStatus">0 correct in a row</p>
+            </article>
+            <article>
+              <h3>Purse</h3>
+              <p id="purseStatus">0 unbanked points</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="panel custom-panel">
+          <div class="panel-heading">
+            <h2>Custom word lists</h2>
+            <p>Paste school words or your own challenge packs. Saved in this browser for later.</p>
+          </div>
+
+          <div class="control-grid">
+            <label>
+              <span>List name</span>
+              <input id="customName" type="text" placeholder="Week 4 homework words" />
+            </label>
+
+            <label>
+              <span>Suggested year band</span>
+              <select id="customYear">
+                <option value="Custom">Custom</option>
+                <option value="Foundation">Foundation</option>
+                <option value="Year 1">Year 1</option>
+                <option value="Year 2">Year 2</option>
+                <option value="Year 3">Year 3</option>
+                <option value="Year 4">Year 4</option>
+                <option value="Year 5">Year 5</option>
+                <option value="Year 6">Year 6</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="stacked">
+            <span>Words</span>
+            <textarea
+              id="customWords"
+              rows="8"
+              placeholder="Use one entry per line, or word | clue | sentence&#10;example | means a typical sample | This is an example sentence."
+            ></textarea>
+          </label>
+
+          <div class="action-row">
+            <button id="saveCustom" class="primary" type="button">Save custom list</button>
+            <button id="clearCustom" type="button">Clear form</button>
+          </div>
+
+          <div class="saved-lists">
+            <h3>Saved custom packs</h3>
+            <div id="customListContainer" class="saved-list-grid"></div>
+          </div>
+        </section>
+
+        <section class="panel ideas-panel">
+          <div class="panel-heading">
+            <h2>Good next additions</h2>
+            <p>Once the core works for your family, these would add more show-style fun.</p>
+          </div>
+          <ul class="ideas-list">
+            <li>Head-to-head mode for siblings with alternating turns and score locks.</li>
+            <li>Audio-first spell what you hear mode for tablet or phone play.</li>
+            <li>Teacher or parent dashboard for assigning weekly packs and tracking tricky words.</li>
+            <li>Mini quirky rounds like anagram rescue, vowel swap, or spot the imposter.</li>
+          </ul>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

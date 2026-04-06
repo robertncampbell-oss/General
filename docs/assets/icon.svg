@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Spelling Bee Showdown icon">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#274060" />
+      <stop offset="100%" stop-color="#1c7c7d" />
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0c14b" />
+      <stop offset="100%" stop-color="#d79922" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)" />
+  <circle cx="180" cy="170" r="62" fill="#f7f2e8" opacity="0.92" />
+  <circle cx="336" cy="170" r="62" fill="#f7f2e8" opacity="0.92" />
+  <ellipse cx="256" cy="270" rx="138" ry="124" fill="url(#gold)" />
+  <rect x="192" y="200" width="32" height="150" rx="16" fill="#1d2a3a" />
+  <rect x="240" y="200" width="32" height="150" rx="16" fill="#1d2a3a" />
+  <rect x="288" y="200" width="32" height="150" rx="16" fill="#1d2a3a" />
+  <path d="M214 352c18 22 43 34 42 60 0 0 44-20 42-60" fill="#1d2a3a" />
+  <path d="M226 102c10-26 36-38 52-38s42 12 52 38" fill="none" stroke="#f7f2e8" stroke-linecap="round" stroke-width="18" />
+  <text x="256" y="285" text-anchor="middle" font-size="120" font-family="Georgia, serif" fill="#f7f2e8">B</text>
+  <text x="256" y="446" text-anchor="middle" font-size="54" font-family="Avenir Next, Trebuchet MS, sans-serif" fill="#f7f2e8" letter-spacing="6">SPELL</text>
+</svg>
